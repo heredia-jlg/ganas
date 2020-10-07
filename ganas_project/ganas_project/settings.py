@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 
+import os
+GANAS_MONGO_URI = os.environ['GANAS_MONGO_URI']
+GANAS_SECRET_KEY = os.environ['GANAS_SECRET_KEY']
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
@@ -20,7 +24,7 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '6f53=fj+=7=12-(aqp5qhwemlc@01ed2b7&pm-9=4#(%qm=so0'
+SECRET_KEY = GANAS_SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,6 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'leads',
+    'rest_framework',
+    'frontend'
 ]
 
 MIDDLEWARE = [
@@ -75,11 +82,13 @@ WSGI_APPLICATION = 'ganas_project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    'ENGINE': 'djongo',
+    'CLIENT': {
+            'host': GANAS_MONGO_URI,
+            'authMechanism': 'SCRAM-SHA-1'
+        }
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators

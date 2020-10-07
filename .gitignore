@@ -96,3 +96,5 @@ venv.bak/
 
 # sftp configuration file
 sftp-config.json
+
+/node_modules
